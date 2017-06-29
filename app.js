@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 var rpio = require('rpio');
 
+rpio.init({mapping: 'physical'}); 
 
 app.get('/', (req, res) => {
     res.send('Yo');
@@ -9,8 +10,8 @@ app.get('/', (req, res) => {
 
 
 app.get('/api/pin/:pin/status', (req, res) => {
-    console.log(req.params.pin);
-    res.send({ status: rpio.read(req.params.pin) });
+    const pinNumber = parseInt(req.params.pin,10);
+    res.send({ status: rpio.read(pinNumber) });
 });
 
 
