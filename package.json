@@ -11,5 +11,8 @@
   "dependencies": {
     "express": "^4.15.3",
     "rpio": "^0.9.17"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
