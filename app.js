@@ -6,11 +6,15 @@ var rpio = require('rpio');
 rpio.init({ mapping: 'physical' });
 
 app.get('/', (req, res) => {
-    res.send('Yo, what the hell are you going here?');
+    res.render('panel', {
+        title: 'Panel'
+    });
 })
 
-const relayPins = [3, 5, 7, 11, 13, 15, 19, 21];
+app.set('views', './views');
 
+
+const relayPins = [3, 5, 7, 11, 13, 15, 19, 21];
 
 app.get('/api/relay/:pin/status', (req, res) => {
     const status = getStatus(req.params.pin);
@@ -20,11 +24,11 @@ app.get('/api/relay/:pin/status', (req, res) => {
 app.get('/api/relay/:pin/toggle', (req, res) => {
     const pin = req.params.pin;
     openPin(pin);
-    isOn(pin) ? turnOff(pin): turnOff(pin);
-    res.send({ 
+    isOn(pin) ? turnOff(pin) : turnOff(pin);
+    res.send({
         pin: {
             number: pin,
-            isOn: isOn(pin) 
+            isOn: isOn(pin)
         }
     });
 });
@@ -32,13 +36,13 @@ app.get('/api/relay/:pin/toggle', (req, res) => {
 app.get('/api/relay/all/on', (req, res) => {
     console.log('everything is going up!');
 
-    if(!relayPins.every(isOn)) {
+    if (!relayPins.every(isOn)) {
         relayPins.forEach(pin => rpio.write(pin, rpio.LOW));
         res.send({ isAllOn: true });
     } else {
         res.send({ isAllOn: true });
-        relayPins.forEach(pin =>{
-            if(!isOn(pin)) turnOn(pin);
+        relayPins.forEach(pin => {
+            if (!isOn(pin)) turnOn(pin);
         });
         res.send({ isAllOn: true });
     }
@@ -47,12 +51,12 @@ app.get('/api/relay/all/on', (req, res) => {
 app.get('/api/relay/all/off', (req, res) => {
     console.log('world is shutting down');
 
-    if(relayPins.every(isOn)) {
+    if (relayPins.every(isOn)) {
         relayPins.forEach(pin => turnOff(pin));
         res.send({ isAllOn: false });
     } else {
-        relayPins.forEach(pin =>{
-            if(isOn(pin)) turnOff(pin);
+        relayPins.forEach(pin => {
+            if (isOn(pin)) turnOff(pin);
         });
         res.send({ isAllOn: false });
     }
