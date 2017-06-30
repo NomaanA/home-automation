@@ -4,14 +4,13 @@ const app = express();
 var rpio = require('rpio');
 
 rpio.init({ mapping: 'physical' });
+app.set('view engine', 'html');
+// app.set('views', './views');
+
 
 app.get('/', (req, res) => {
-    res.render('panel', {
-        title: 'Panel'
-    });
+    res.sendFile(__dirname + "/views/panel.html");
 })
-
-app.set('views', './views');
 
 
 const relayPins = [3, 5, 7, 11, 13, 15, 19, 21];
