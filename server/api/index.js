@@ -1,18 +1,9 @@
 'use strict';
-const express = require('express');
-const app = express();
-var rpio = require('rpio');
-rpio.init({ mapping: 'physical' });
-
-app.set('view engine', 'html');
-// app.set('views', './views');
-
-
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + "/index.html");
-})
 
 const relayPins = [3, 5, 7, 11, 13, 15, 19, 21];
+const pinsUtil = require('../pinsUtil.js');
+const express = require('express');
+const app = express();
 
 app.get('/api/relay/:pin/status', (req, res) => {
 
@@ -27,7 +18,6 @@ app.get('/api/relay/:pin/status', (req, res) => {
         status: response
     });
 });
-
 
 app.get('/api/relay/:pin/toggle', (req, res) => {
     const pin = req.params.pin;
@@ -69,26 +59,4 @@ app.get('/api/relay/all/off', (req, res) => {
         });
         res.send({ isAllOn: false });
     }
-})
-
-
-
-const getStatus = (pin) => rpio.read(pin);
-const isOn = (pin) => rpio.read(pin) === 0;
-const turnOff = (pin) => rpio.write(pin, rpio.HIGH);
-const turnOn = (pin) => rpio.write(pin, rpio.LOW);
-const openPin = (pin) => rpio.open(pin, rpio.OUTPUT);
-const getAllStatus = () => {
-    let statusArray = [];
-    relayPins.forEach(pin => {
-        statusArray.push({
-            pin: pin,
-            status: getStatus(pin)
-        })
-    });
-    return statusArray;
-}
-
-app.listen(3000, () => {
-    console.log('Running...')
 })
