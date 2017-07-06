@@ -9,12 +9,12 @@ module.exports = {
     turnOff: (pin) => rpio.write(pin, rpio.HIGH),
     turnOn: (pin) => rpio.write(pin, rpio.LOW),
     openPin: (pin) => rpio.open(pin, rpio.OUTPUT),
-    getAllStatus: () => {
+    getAllStatus: (relayPins) => {
         let statusArray = [];
         relayPins.forEach(pin => {
             statusArray.push({
                 pin: pin,
-                status: getStatus(pin)
+                status: (pin) => rpio.read(pin)
             })
         });
         return statusArray;
