@@ -11,6 +11,8 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.15.3",
+    "raspi": "^4.0.0",
+    "raspi-i2c": "^5.0.4",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "rpio": "^0.9.17"

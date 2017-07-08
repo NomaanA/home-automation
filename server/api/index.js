@@ -2,7 +2,11 @@
 const pinsUtil = require('../pinsUtil.js');
 const server = require('../server.js');
 
-const relayPins = [3, 5, 7, 11, 13, 15, 19, 21];
+//TODO: move these to a helper for sensors
+const raspi = require('raspi');
+const I2C = require('raspi-i2c').I2C;
+
+const relayPins = [16, 18, 22, 11, 13, 15, 19, 21];
 
 server.get('/api/relay/status', (req, res) => {
 
@@ -20,6 +24,30 @@ server.get('/api/relay/status', (req, res) => {
         status: response
     });
 });
+
+//TODO: move this to a sensors file 
+server.get('/api/sensors/temperature', (req, res) => {
+    const unit = req.query.unit;
+
+    let respond = {};
+
+    raspi.init(() => {
+        const i2c = new I2C();
+        try {
+            respond = i2c.readByteSync(0x48, 0x00);
+            respond = unit === 'f' ? (respond * 1.8 + 32) : respond;
+            respond = Math.round(respond);
+
+        } catch (e) {
+            respond = '--';
+            console.log('error:::', e);
+        }
+        res.send({
+            'timestamp': new Date(),
+            'temperature': respond
+        });
+    });
+})
 
 server.post('/api/relay/toggle', (req, res) => {
     const pin = req.query.pin;
@@ -90,4 +118,4 @@ server.post('/api/relay/all/toggle', (req, res) => {
         });
         res.send({ isAllOn: true });
     }
-})
+});
