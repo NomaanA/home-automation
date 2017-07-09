@@ -10,6 +10,7 @@ const config = {
         6: relayPins[5],
         7: relayPins[6],
         8: relayPins[7],
-    }
+    },
+    relayPins
 }
 module.exports = config;
