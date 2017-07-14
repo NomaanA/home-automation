@@ -1,10 +1,12 @@
 'use strict'
 
 const express = require('express');
-const thermostat = express.Router();
+const weather = express.Router();
 
 const raspi = require('raspi');
 const I2C = require('raspi-i2c').I2C;
+
+const darkSky = require('./third-party/darkSky.js');
 
 const readTemperature = (unit) => {
     const i2c = new I2C();
@@ -26,7 +28,7 @@ const readTemperature = (unit) => {
     return Math.round(reading);
 };
 
-thermostat.get('/', (req, res) => {
+weather.get('/current/indoor', (req, res) => {
     let unit = req.query.unit;
     let temperature = {};
 
@@ -48,4 +50,10 @@ thermostat.get('/', (req, res) => {
     });
 })
 
-module.exports = thermostat;
+weather.get('/current/outdoor', (req, res) => {
+    darkSky.getCurrentWeather().then((resp) => {
+        res.send({ currentWeather: resp });
+    });
+})
+
+module.exports = weather;
