@@ -39,7 +39,11 @@ weather.get('/current/indoor', (req, res) => {
             temperature = readTemperature(unit);
         } catch (e) {
             temperature = '--';
-            console.log('error:::', e);
+            if (e.error == null) {
+                console.log('\x1b[36m%s\x1b[0m', ' 💩 💩 💩 You need to run the server as an admin. ')
+            } else {
+                console.log('error:::', e);
+            }
         }
 
         res.send({
