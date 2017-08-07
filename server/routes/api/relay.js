@@ -7,11 +7,11 @@ const helper = require('./helper');
 const config = require('../../../config');
 const relayPins = config.relayPins;
 
-relay.get('/status', (req, res) => {
+relay.get('/:pin/status', (req, res) => {
+    const pin = req.params.pin;
 
-    const pin = req.query.pin;
     let response = {};
-
+    console.log(pin);
     if (pin === 'all') {
         response = helper.getAllStatus(relayPins);
     } else {
@@ -25,13 +25,13 @@ relay.get('/status', (req, res) => {
 });
 
 
-relay.post('/toggle', (req, res) => {
-    const pin = req.query.pin;
+relay.post('/:pin/toggle', (req, res) => {
+    const pin = req.params.pin;
+
     let respond = {};
     console.log('toggling pin: ', pin);
 
     if (pin === 'all') {
-
         if (!relayPins.every(helper.isOn)) {
             relayPins.forEach(pin => {
                 helper.openPin(pin);
