@@ -11,12 +11,13 @@
     "license": "MIT",
     "dependencies": {
         "bluebird": "^3.5.0",
-        "express": "^4.15.3",
+        "express": "^4.15.4",
         "raspi": "^4.0.0",
         "raspi-i2c": "^5.0.4",
         "react": "^15.6.1",
         "react-dom": "^15.6.1",
         "rpio": "^0.9.17",
+        "superagent": "^3.5.2",
         "superagent-bluebird-promise": "^4.2.0"
     },
     "devDependencies": {

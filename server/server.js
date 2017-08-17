@@ -6,6 +6,9 @@ const path = require('path');
 const port = process.env.PORT || 3000
 const router = express.Router();
 
+const raspi = require('raspi');
+
+
 // different routes 
 const api = require('./routes/api/');
 
@@ -22,6 +25,8 @@ server.get('/', (req, res) => {
 })
 
 server.listen(port, () => {
-    console.log(`Running on port ${port}...`)
+    raspi.init(()=>{
+        console.log(`Running on port ${port}...`)
+    });
         // turn on the power LED
 })
