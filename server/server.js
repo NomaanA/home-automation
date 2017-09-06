@@ -1,13 +1,13 @@
 'use strict'
-const express = require('express')
-const server = module.exports = express()
+const express = require('express');
+const server = module.exports = express();
 
 const path = require('path');
 const port = process.env.PORT || 3000
 const router = express.Router();
 
 const raspi = require('raspi');
-
+const helper = require('./routes/api/helper.js');
 
 // different routes 
 const api = require('./routes/api/');
@@ -24,9 +24,23 @@ server.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/../client/index.html'))
 })
 
-server.listen(port, () => {
-    raspi.init(()=>{
+const app = server.listen(port, () => {
+    raspi.init(() => {
         console.log(`Running on port ${port}...`)
+        helper.openPin(40);
+        helper.turnOff(40);
     });
-        // turn on the power LED
-})
+});
+const gracefulShutdown = () => {
+        helper.openPin(40);
+        helper.turnOn(40);
+        console.log('Bye.');
+
+        app.close();
+        process.exit();
+    }
+    // listen for TERM signal .e.g. kill 
+process.on('SIGTERM', gracefulShutdown);
+
+// listen for INT signal e.g. Ctrl-C
+process.on('SIGINT', gracefulShutdown);

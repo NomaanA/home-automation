@@ -37,6 +37,7 @@ weather.get('/current/indoor', (req, res) => {
             temp = 0;
             console.log('error reading the temp');
         }
+	if(unit === 'undefined') unit = 'c';
         res.send({
             'timestamp': new Date(),
             temp,
