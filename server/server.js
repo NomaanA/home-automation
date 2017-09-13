@@ -20,7 +20,7 @@ server.use((req, res) => {
 })
 
 server.get('/', (req, res) => {
-    server.use(express.static('client/assets'))
+    server.use(express.static(__dirname + '/../client/assets'));
     res.sendFile(path.join(__dirname + '/../client/index.html'))
 })
 
@@ -31,15 +31,18 @@ const app = server.listen(port, () => {
         helper.turnOff(40);
     });
 });
-const gracefulShutdown = () => {
-        helper.openPin(40);
-        helper.turnOn(40);
-        console.log('Bye.');
 
-        app.close();
-        process.exit();
-    }
-    // listen for TERM signal .e.g. kill 
+const gracefulShutdown = () => {
+    helper.openPin(40);
+    //TODO: fix this. reverse on and off 
+    helper.turnOn(40);
+    console.log('Bye.');
+
+    app.close();
+    process.exit();
+}
+
+// listen for TERM signal .e.g. kill 
 process.on('SIGTERM', gracefulShutdown);
 
 // listen for INT signal e.g. Ctrl-C
