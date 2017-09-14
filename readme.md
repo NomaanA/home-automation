@@ -71,3 +71,12 @@ select nano editor and add this to the last line:
 ```bash
 @reboot /usr/bin/sudo -u pi -H /usr/local/bin/forever start /var/www/your-server.js
 ```
+
+----
+TODO:
+
+[] Webpack + express
+
+[] Create 2 different environments
+
+[] Serve front end on port 80 and the api on some other ports
