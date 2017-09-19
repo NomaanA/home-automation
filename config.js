@@ -1,6 +1,9 @@
 const relayPins = [8, 10, 12, 16, 18, 22, 24, 26];
 
 const config = {
+    litOnSunSet: true,
+    longitude: '41.815101',
+    latitude: '-88.261404',
     relays: {
         1: {
             pin: relayPins[0],
