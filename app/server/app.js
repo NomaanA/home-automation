@@ -19,10 +19,6 @@ app.use("/api", api);
 
 app.use(express.static(path.join(__dirname, "../public")));
 
-// app.use((req, res) => {
-//     res.status(404).send({ url: req.originalUrl + " not found" });
-// });
-
 const appInstance = app.listen(port, () => {
     raspi.init(() => {
         console.log(`Running on port ${port}...`);
