@@ -1,3 +1,4 @@
+
 # Home Automation
 
 I started this project because I was lazy and wanted a way to keep it that way and have an excuse to shop on AliExpress and get my hands dirty with some hardware. 
@@ -52,7 +53,7 @@ static routers=<gateway>
 static domain_name_servers=<gateway>
 ```
 
-### Run at boot 
+### Run at boot
 
 You can use `forever` npm module to do so.
 
@@ -75,8 +76,11 @@ select nano editor and add this to the last line:
 ----
 TODO:
 
-[] Webpack + express
-
-[] Create 2 different environments
-
-[] Serve front end on port 80 and the api on some other ports
+- [X] ~~Webpack + express~~
+- [ ] Add a cron job to check for internet connection
+  - Through out the day there needs to be a check for internet connection and blink the led if the pi is disconnected
+- MQTT: Introduce MQTT broker and pub/sub system
+  - This should help with different relays that are not on the main Pi.
+  - This should help with instant update on clients without long-pull requests
+- [ ] Create 2 different environments
+- [ ] Serve front end on port 80 and the api on some other ports
